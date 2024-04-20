@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://caempjvvxklpi"]
+
+[ext_resource type="Texture2D" uid="uid://2mug21p47gcd" path="res://assets/images/character.png" id="1_l2yjc"]
+[ext_resource type="Texture2D" uid="uid://f58pv4wpn3x5" path="res://assets/images/bullet8.png" id="2_67npe"]
+[ext_resource type="Script" path="res://scripts/character.gd" id="2_njxgy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ccssi"]
+radius = 14.0357
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w6ujn"]
+radius = 4.0
+
+[node name="Character" type="Sprite2D"]
+texture = ExtResource("1_l2yjc")
+script = ExtResource("2_njxgy")
+
+[node name="HitboxSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_67npe")
+
+[node name="GrazeArea" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrazeArea"]
+shape = SubResource("CircleShape2D_ccssi")
+debug_color = Color(0.249127, 0.628057, 0.286708, 0.42)
+
+[node name="HitArea" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+shape = SubResource("CircleShape2D_w6ujn")
+debug_color = Color(0.917647, 0.227451, 0.454902, 0.694118)
+
+[connection signal="area_entered" from="GrazeArea" to="." method="_on_graze_area_area_entered"]
+[connection signal="area_exited" from="GrazeArea" to="." method="_on_graze_area_area_exited"]
+[connection signal="area_entered" from="HitArea" to="." method="_on_hit_area_area_entered"]

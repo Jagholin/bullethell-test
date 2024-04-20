@@ -1,0 +1,99 @@
+[gd_scene load_steps=10 format=3 uid="uid://jf4y6h3ghkjm"]
+
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_2k7uu"]
+[ext_resource type="PackedScene" uid="uid://bsl3t8rr7fdng" path="res://scenes/bullet_emitter.tscn" id="1_4flkd"]
+[ext_resource type="PackedScene" uid="uid://csdjcwmehybw0" path="res://scenes/bullet_scene.tscn" id="2_x6tkr"]
+[ext_resource type="PackedScene" uid="uid://caempjvvxklpi" path="res://scenes/character.tscn" id="3_o03gy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ty3hf"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6x3xj"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_023yi"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_uaday"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0tkrx"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2k7uu")
+metadata/_edit_horizontal_guides_ = [160.0, 225.0]
+
+[node name="GameView" type="ColorRect" parent="."]
+clip_children = 2
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 0
+offset_left = 27.0
+offset_top = 28.0
+offset_right = 449.0
+offset_bottom = 618.0
+color = Color(0.341972, 0.357537, 0.748501, 1)
+
+[node name="BulletEmitter" parent="GameView" node_paths=PackedStringArray("bullet_parent") instance=ExtResource("1_4flkd")]
+position = Vector2(203, 197)
+bullet_scene = ExtResource("2_x6tkr")
+bullet_parent = NodePath("..")
+bullet_velocity = 95.0
+bullet_range = Rect2(0, 0, 800, 800)
+frequency = 200.0
+
+[node name="Character" parent="GameView" instance=ExtResource("3_o03gy")]
+position = Vector2(203, 529)
+normal_speed = 80.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 648.0
+offset_top = 160.0
+offset_right = 707.0
+offset_bottom = 183.0
+text = "Deaths:"
+label_settings = SubResource("LabelSettings_ty3hf")
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 648.0
+offset_top = 225.0
+offset_right = 698.0
+offset_bottom = 248.0
+text = "Graze:"
+label_settings = SubResource("LabelSettings_6x3xj")
+
+[node name="DeathsLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 733.0
+offset_top = 160.0
+offset_right = 773.0
+offset_bottom = 183.0
+text = "0"
+label_settings = SubResource("LabelSettings_023yi")
+
+[node name="GrazeLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 733.0
+offset_top = 225.0
+offset_right = 773.0
+offset_bottom = 248.0
+text = "0"
+label_settings = SubResource("LabelSettings_uaday")
+
+[node name="StatsLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 648.0
+offset_top = 437.0
+offset_right = 943.0
+offset_bottom = 571.0
+label_settings = SubResource("LabelSettings_0tkrx")
+
+[connection signal="death" from="GameView/Character" to="." method="_on_character_death"]
+[connection signal="increment_graze" from="GameView/Character" to="." method="_on_character_increment_graze"]
